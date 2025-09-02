@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {IOrder} from "../../interfaces/order/IOrder";
 import CommentsComponent from '../comment/CommentsComponent';
+import './OrderComponent.css'
 
 interface IProps {
     order: IOrder;
@@ -10,7 +11,7 @@ interface IProps {
 const OrderComponent: FC<IProps> = ({order, isExpanded, onClick}) => {
     return (
         <>
-            <tr onClick={onClick}>
+            <tr onClick={onClick} className="orderComponentTr">
                 <td>{order.id}</td>
                 <td>{order.name || "null"}</td>
                 <td>{order.surname || "null"}</td>
@@ -25,7 +26,7 @@ const OrderComponent: FC<IProps> = ({order, isExpanded, onClick}) => {
                 <td>{order.alreadyPaid ?? "null"}</td>
                 <td>{order.createdAt || "null"}</td>
                 <td>{order.manager || "null"}</td>
-                <td>{order.group || "null"}</td>
+                <td>{order.groupName || "null"}</td>
             </tr>
             {isExpanded && <CommentsComponent order={order}/>}
         </>

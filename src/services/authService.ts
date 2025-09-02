@@ -5,7 +5,7 @@ import { IAuthResponse } from "../interfaces/auth/IAuthResponse";
 import { BASE_URL } from "./consts";
 
 
-export const login = async (authData: IAuthRequest): Promise<IAuthResponse> => {
+export const login = async (authData: IAuthRequest): Promise<void> => {
     try {
         const response: AxiosResponse<IAuthResponse> = await axios.post(
             `${BASE_URL}/auth/login`,
@@ -16,7 +16,6 @@ export const login = async (authData: IAuthRequest): Promise<IAuthResponse> => {
         )
         setAccessToken(response.data.accessToken);
         setRefreshToken(response.data.refreshToken);
-        return response.data;
     } catch (error){
         console.error(error);
         throw new Error("Auth failed");

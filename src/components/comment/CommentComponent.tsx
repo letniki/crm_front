@@ -7,7 +7,7 @@ interface IProps {
 const CommentComponent:FC<IProps> = ({comment}) => {
     return (
         <div>
-            <li key={comment.id}>
+            <li key={comment.id} className="list-group-item">
                 Author: {comment.author} Comment: {comment.body} Created at: {comment.createdAt}
             </li>
         </div>

@@ -3,9 +3,7 @@ import AuthFormComponent from '../components/auth/AuthFormComponent';
 
 const AuthPage = () => {
     return (
-        <div>
             <AuthFormComponent/>
-        </div>
     );
 };
 

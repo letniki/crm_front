@@ -3,6 +3,7 @@ import { refreshAccessToken } from "./authService";
 import { getAccessToken } from "./TokenService";
 import { IOrdersPaginated } from "../interfaces/order/IOrdersPaginated";
 import { BASE_URL } from "./consts";
+import { IOrder } from "../interfaces/order/IOrder";
 
 
 axios.interceptors.request.use(
@@ -34,7 +35,7 @@ axios.interceptors.response.use(
 
 export const getAllOrders = async (page: number, order: string, direction: string): Promise<IOrdersPaginated> => {
     try {
-        const response: AxiosResponse<IOrdersPaginated> = await axios.get(`${BASE_URL}/orders`, {
+        const response: AxiosResponse<IOrdersPaginated> = await axios.get(`${BASE_URL}/orders/`, {
             params: {page, order, direction}
         });
         return response.data;
@@ -43,3 +44,27 @@ export const getAllOrders = async (page: number, order: string, direction: strin
         throw error;
     }
 };
+export const getAllGroupNames = async (): Promise<string[]> => {
+    try {
+        const response: AxiosResponse<string[]> = await axios.get(`${BASE_URL}/groups/`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to get group names", error);
+        throw error;
+    }
+};
+
+export const editOrder = async (id: number, data: IOrder): Promise<void> => {
+    const token = getAccessToken();
+    try {
+        await axios.put(`${BASE_URL}/orders/order/${id}`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+    } catch (error) {
+        console.error('Error editing order', error);
+        throw error;
+    }
+}

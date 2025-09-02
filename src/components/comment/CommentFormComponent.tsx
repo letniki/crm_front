@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import {SubmitHandler, useForm } from 'react-hook-form';
 import { IComment } from '../../interfaces/comment/IComment';
 import { addComment } from '../../services/commentsService';
+import './CommentFormComponent.css';
 
 interface IProps {
     orderId: number;
@@ -21,13 +22,14 @@ const CommentFormComponent:FC<IProps> = ({orderId, onCommentAdded}) => {
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
+            <div className="commentBox">
         <textarea
             {...register("body", {required: true})}
             placeholder="comment"
+            className="commentFormTextArea"
         />
-            </div>
-            <button type="submit">send</button>
+
+            <button type="submit" className="commentFormButton">send</button></div>
         </form>
     );
 };

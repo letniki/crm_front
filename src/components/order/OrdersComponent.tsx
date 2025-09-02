@@ -16,7 +16,7 @@ const OrdersComponent: FC<IProps> = ({orders, onSort}) => {
     };
     return (
         <>
-            <table>
+            <table className="table table-bordered table-striped">
                 <TableHeaderComponent onSort={onSort}/>
                 <tbody>
                 {

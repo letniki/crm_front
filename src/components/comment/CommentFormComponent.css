@@ -1,0 +1,25 @@
+.commentBox{
+    margin: 2vw 3vh 2vw 2vh;
+    display: flex;
+    height: 5vh;
+    justify-content: space-between;
+}
+.commentFormTextArea{
+    display: block;
+    width: 90%;
+    padding: 1.2vh 2.4vh;
+    font-size: 1.6vh;
+    font-weight: 400;
+    line-height: 1.5;
+    appearance: none;
+    background-clip: padding-box;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.commentFormButton{
+    color: #fff;
+    display: inline-block;
+    border: 1px solid #198754;
+    padding: 4.5px 9px;
+    background-color: #198754;
+    border-radius: 1.2vh;
+}
