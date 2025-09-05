@@ -25,6 +25,8 @@ const AuthFormComponent: FC = () => {
     return (
         <div className="authFormBox">
             <form onSubmit={handleSubmit(onSubmit)} className="loginForm">
+                <div>
+                Email:
                 <input
                     {...register("email", {
                         required: "email required",
@@ -33,16 +35,17 @@ const AuthFormComponent: FC = () => {
                     className="loginInput"
                     type="email"
                     placeholder={"admin@gmail.com"}
-                />
+                /></div>
                 {errors.email && <span className="text-danger">{errors.email.message}</span>}
 
+                <div>Password:
                 <input
                     {...register("password", {required: "password required"})}
                     className="loginInput"
                     type="password"
                     placeholder={"admin"}
 
-                />
+                /></div>
                 {errors.password && <span className="text-danger">{errors.password.message}</span>}
 
                 <button type="submit" className="btn btn-success m-2">
