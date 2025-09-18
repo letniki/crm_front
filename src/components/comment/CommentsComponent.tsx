@@ -5,13 +5,15 @@ import CommentComponent from './CommentComponent';
 import { IOrder } from '../../interfaces/order/IOrder';
 import { IComment } from '../../interfaces/comment/IComment';
 import { getAllComments } from '../../services/commentsService';
-import OrderChangeModalComponent from '../order/OrderChangeModalComponent';
+import { Button } from 'react-bootstrap';
+import OrderChangeModalComponent from '../modals/OrderChangeModalComponent';
 
 interface IProps {
     order: IOrder;
+    groups: string[];
 }
 
-const CommentsComponent:FC<IProps> = ({order}) => {
+const CommentsComponent:FC<IProps> = ({order, groups}) => {
     const [comments, setComments] = useState<IComment[]>([]);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -26,13 +28,13 @@ const CommentsComponent:FC<IProps> = ({order}) => {
             .catch(() => setIsLoaded(true));
     }, [order.id]);
 
-    const handleCommentAdded = (newComment: IComment) => {
+    const onCommentAdded  = (newComment: IComment) => {
         setComments([...comments, newComment]);
     };
-    const handleModalOpen = () => {
+    const onModalOpen = () => {
         setIsModalOpen(true);
     };
-    const handleModalClose = () => {
+    const onModalClose  = () => {
         setIsModalOpen(false);
     };
     return (
@@ -51,10 +53,10 @@ const CommentsComponent:FC<IProps> = ({order}) => {
                                 ))}
                             </ul>
                         )}
-                        <CommentFormComponent orderId={order.id} onCommentAdded={handleCommentAdded}/>
+                        <CommentFormComponent orderId={order.id} onCommentAdded={onCommentAdded}/>
                     </td>
                     <td colSpan={1}>
-                        <button className="btn btn-success m-4 p-2" onClick={handleModalOpen}>edit</button>
+                        <Button className="btn btn-success m-4 p-2" onClick={onModalOpen}>edit</Button>
                     </td>
                 </tr>) : (<tr>
                 <td colSpan={1}><PreloaderComponent/></td>
@@ -63,8 +65,9 @@ const CommentsComponent:FC<IProps> = ({order}) => {
             {isModalOpen && (
                 <div>
                     <OrderChangeModalComponent
+                        groups={groups}
                         order={order}
-                        onClose={handleModalClose}
+                        onClose={onModalClose}
                         isOpen={isModalOpen}
                     />
                 </div>

@@ -3,6 +3,7 @@ import {SubmitHandler, useForm } from 'react-hook-form';
 import { IComment } from '../../interfaces/comment/IComment';
 import { addComment } from '../../services/commentsService';
 import './CommentFormComponent.css';
+import { Button } from 'react-bootstrap';
 
 interface IProps {
     orderId: number;
@@ -29,7 +30,7 @@ const CommentFormComponent:FC<IProps> = ({orderId, onCommentAdded}) => {
             className="commentFormTextArea"
         />
 
-            <button type="submit" className="commentFormButton">send</button></div>
+            <Button type="submit" className="commentFormButton">send</Button></div>
         </form>
     );
 };

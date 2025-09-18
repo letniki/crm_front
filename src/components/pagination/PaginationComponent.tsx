@@ -8,7 +8,7 @@ interface IProps {
 }
 const PaginationComponent: FC<IProps> = ({total, page, setSearchParams}) => {
 
-    const handlePageChange = (selectedPage: {selected: number}) =>{
+    const onPageChange = (selectedPage: {selected: number}) =>{
         setSearchParams((prev: URLSearchParams) => {
             const newParams = new URLSearchParams(prev);
             newParams.set("page", String(selectedPage.selected + 1));
@@ -21,7 +21,7 @@ const PaginationComponent: FC<IProps> = ({total, page, setSearchParams}) => {
                 pageCount={Math.ceil(total / 25)}
                 pageRangeDisplayed={7}
                 marginPagesDisplayed={1}
-                onPageChange={handlePageChange}
+                onPageChange={onPageChange}
                 forcePage={page - 1}
 
                 containerClassName="pagination justify-content-center"

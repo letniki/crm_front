@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 const ErrorPage: FC = () => {
     return (
         <div>
-            ErrorPage
+            <h1 className="text-danger"> Sorry! Not found </h1>
         </div>
     );
 };

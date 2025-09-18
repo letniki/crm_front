@@ -6,8 +6,9 @@ import TableHeaderComponent from './TableHeaderComponent';
 interface IProps {
     orders: IOrder[];
     onSort: (column: string) => void;
+    groups: string[];
 }
-const OrdersComponent: FC<IProps> = ({orders, onSort}) => {
+const OrdersComponent: FC<IProps> = ({orders, groups, onSort}) => {
 
     const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
 
@@ -21,7 +22,7 @@ const OrdersComponent: FC<IProps> = ({orders, onSort}) => {
                 <tbody>
                 {
                     orders.map((order, index) => (
-                        <OrderComponent key={index} order={order} isExpanded={expandedOrderId === order.id}
+                        <OrderComponent key={index} order={order}  groups={groups} isExpanded={expandedOrderId === order.id}
                                         onClick={() => toggleExpand(order.id)}/>))
                 }
                 </tbody>

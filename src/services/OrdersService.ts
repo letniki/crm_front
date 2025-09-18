@@ -1,9 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { refreshAccessToken } from "./authService";
 import { getAccessToken } from "./TokenService";
-import { IOrdersPaginated } from "../interfaces/order/IOrdersPaginated";
 import { BASE_URL } from "./consts";
 import { IOrder } from "../interfaces/order/IOrder";
+import { ISearchParams } from "../interfaces/order/ISearchParams";
+import { IStat } from "../interfaces/order/IStat";
+import { IPaginationResponse } from "../interfaces/order/IPaginationResponse";
 
 
 axios.interceptors.request.use(
@@ -33,10 +35,15 @@ axios.interceptors.response.use(
     }
 );
 
-export const getAllOrders = async (page: number, order: string, direction: string): Promise<IOrdersPaginated> => {
+export const getAllOrders = async (params: ISearchParams): Promise<IPaginationResponse<IOrder>> => {
+    const token = getAccessToken();
     try {
-        const response: AxiosResponse<IOrdersPaginated> = await axios.get(`${BASE_URL}/orders/`, {
-            params: {page, order, direction}
+        const response: AxiosResponse<IPaginationResponse<IOrder>> = await axios.get(`${BASE_URL}/orders/`, {
+            params,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getAccessToken()}`,
+            },
         });
         return response.data;
     } catch (error) {
@@ -54,10 +61,25 @@ export const getAllGroupNames = async (): Promise<string[]> => {
     }
 };
 
-export const editOrder = async (id: number, data: IOrder): Promise<void> => {
+export const getStats = async (): Promise<IStat[]> => {
     const token = getAccessToken();
     try {
-        await axios.put(`${BASE_URL}/orders/order/${id}`, data, {
+        const response: AxiosResponse<IStat[]> = await axios.get(`${BASE_URL}/orders/stats`, {
+            headers: {
+                'Authorization': `Bearer ${getAccessToken()}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Failed to get order stats", error);
+        throw error;
+    }
+};
+
+export const editOrder = async (id: number, data: Partial<IOrder>): Promise<void> => {
+    const token = getAccessToken();
+    try {
+        await axios.patch(`${BASE_URL}/orders/order/${id}`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -68,3 +90,20 @@ export const editOrder = async (id: number, data: IOrder): Promise<void> => {
         throw error;
     }
 }
+
+export const getExcel = async (params: Partial<ISearchParams>): Promise<Blob> => {
+    const token = getAccessToken();
+    try {
+        const response: AxiosResponse<Blob> = await axios.post(`${BASE_URL}/orders/excel`, params, {
+            responseType: 'blob',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting excel', error);
+        throw error;
+    }
+};

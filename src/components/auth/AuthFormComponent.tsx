@@ -3,13 +3,23 @@ import {login} from "../../services/authService";
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useNavigate} from 'react-router-dom';
 import './AuthFormComponent.css';
+import { Button } from 'react-bootstrap';
 
 interface IFormData {
     email: string,
     password: string
 }
 const AuthFormComponent: FC = () => {
-    const {register, handleSubmit, formState: {errors}}=useForm<IFormData>();
+    const {
+        register,
+        handleSubmit,
+        formState: {errors}
+    } = useForm<IFormData>({
+        defaultValues: {
+            email: "admin@gmail.com",
+            password: "admin",
+        }
+    });
     const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<IFormData> = async (data) =>{
@@ -25,8 +35,7 @@ const AuthFormComponent: FC = () => {
     return (
         <div className="authFormBox">
             <form onSubmit={handleSubmit(onSubmit)} className="loginForm">
-                <div>
-                Email:
+
                 <input
                     {...register("email", {
                         required: "email required",
@@ -34,23 +43,22 @@ const AuthFormComponent: FC = () => {
                     })}
                     className="loginInput"
                     type="email"
-                    placeholder={"admin@gmail.com"}
-                /></div>
+                    placeholder={"email"}
+                />
                 {errors.email && <span className="text-danger">{errors.email.message}</span>}
 
-                <div>Password:
                 <input
                     {...register("password", {required: "password required"})}
                     className="loginInput"
                     type="password"
-                    placeholder={"admin"}
+                    placeholder={"password"}
 
-                /></div>
+                />
                 {errors.password && <span className="text-danger">{errors.password.message}</span>}
 
-                <button type="submit" className="btn btn-success m-2">
+                <Button type="submit" className="btn btn-success m-2">
                     Login
-                </button>
+                </Button>
             </form>
         </div>
     );

@@ -3,9 +3,11 @@ import ErrorPage from "../pages/ErrorPage";
 import HeaderComponent from "../components/HeaderComponent";
 
 const ErrorLayout: FC = () => {
+    const isAuthed: boolean = !!localStorage.getItem("accessToken");
+
     return (
         <div>
-            <HeaderComponent/>
+            { isAuthed && <HeaderComponent/> }
             <ErrorPage/>
         </div>
     );
