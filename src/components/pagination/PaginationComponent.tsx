@@ -3,22 +3,27 @@ import ReactPaginate from "react-paginate";
 
 interface IProps {
     total: number;
+    perPage: number;
     page: number;
-    setSearchParams:(params: any) => void;
+    setPage?: (page: number) => void;
+    setSearchParams?: (params: any) => void;
 }
-const PaginationComponent: FC<IProps> = ({total, page, setSearchParams}) => {
+const PaginationComponent: FC<IProps> = ({total, perPage, page, setSearchParams, setPage}) => {
 
     const onPageChange = (selectedPage: {selected: number}) =>{
-        setSearchParams((prev: URLSearchParams) => {
-            const newParams = new URLSearchParams(prev);
-            newParams.set("page", String(selectedPage.selected + 1));
-            return newParams;
-        });
+        const newPage = selectedPage.selected + 1;
+        if (setSearchParams) {
+            const currentParams = new URLSearchParams(window.location.search);
+            currentParams.set("page", String(newPage));
+            setSearchParams(Object.fromEntries(currentParams.entries()));
+        } else if (setPage) {
+            setPage(newPage);
+        }
     }
     return (
         <div className="p-lg-1">
             <ReactPaginate
-                pageCount={Math.ceil(total / 25)}
+                pageCount={Math.ceil(total / perPage)}
                 pageRangeDisplayed={7}
                 marginPagesDisplayed={1}
                 onPageChange={onPageChange}

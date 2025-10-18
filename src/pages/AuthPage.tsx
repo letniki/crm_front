@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import AuthFormComponent from '../components/auth/AuthFormComponent';
 
-const AuthPage = () => {
+const AuthPage: FC = () => {
     return (
             <AuthFormComponent/>
     );

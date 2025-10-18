@@ -1,16 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 import { IManager } from "../interfaces/manager/IManager";
-import { IPaginationResponse } from "../interfaces/order/IPaginationResponse";
 import { BASE_URL } from "./consts";
-import { getAccessToken } from "./TokenService";
-import { ICreateManagerFormData } from "../interfaces/order/ICreateManagerFormData";
+import { getAccessToken } from "./tokenService";
+import { IPaginationResponse } from "../interfaces/pagination/IPaginationResponse";
+import { ISearchParams } from "../interfaces/order/ISearchParams";
+import { ICreateManagerRequest } from "../interfaces/manager/ICreateManagerRequest";
 
-export const getManagers = async (): Promise<IPaginationResponse<IManager>> => {
+export const getManagers = async (params: ISearchParams): Promise<IPaginationResponse<IManager>> => {
     try {
-        const response: AxiosResponse<IPaginationResponse<IManager>> = await axios.get(`${BASE_URL}/managers?page=1`, {
-            headers: {
-                Authorization: `Bearer ${getAccessToken()}`
-            }
+        const response: AxiosResponse<IPaginationResponse<IManager>> = await axios.get(`${BASE_URL}/managers`, {
+            params,
+            headers: {Authorization: `Bearer ${getAccessToken()}`}
         });
         return response.data;
     } catch (error) {
@@ -20,7 +20,7 @@ export const getManagers = async (): Promise<IPaginationResponse<IManager>> => {
 };
 
 
-export const addManager = async (data: ICreateManagerFormData): Promise<void> => {
+export const addManager = async (data: ICreateManagerRequest): Promise<void> => {
     try {
         const response: AxiosResponse<void> = await axios.post(
             `${BASE_URL}/managers/create`,
@@ -30,6 +30,16 @@ export const addManager = async (data: ICreateManagerFormData): Promise<void> =>
         return response.data;
     } catch (error) {
         console.error("Error creating manager", error);
+        throw error;
+    }
+};
+
+export const toggleBanStatus = async (id: number): Promise<void> => {
+    try {
+        const response: AxiosResponse<void> = await axios.put(`${BASE_URL}/managers/ban/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error banning manager", error);
         throw error;
     }
 };

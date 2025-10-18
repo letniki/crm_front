@@ -1,9 +1,9 @@
 import React, {FC, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {IOrder} from "../../interfaces/order/IOrder";
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import { editOrder } from "../../services/OrdersService";
+import { editOrder } from "../../services/ordersService";
 
 interface IProps {
     onClose: () => void;
@@ -40,15 +40,7 @@ const OrderChangeModalComponent: FC<IProps> = ({onClose, order, isOpen, groups})
 
 
         }
-
-
-
-
-
-
-
-
-
+        
         await editOrder(order.id, {
             ...updatedFields,
             groupName: newGroupName,
@@ -63,9 +55,8 @@ const OrderChangeModalComponent: FC<IProps> = ({onClose, order, isOpen, groups})
 
     return (
         <Modal show={isOpen} onHide={onClose}>
-            <Modal.Header closeButton>
-                {order.name} {order.surname} - {order.groupName}
-            </Modal.Header>
+            <Modal.Header closeButton/>
+
             <Modal.Body>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <select
@@ -334,9 +325,9 @@ const OrderChangeModalComponent: FC<IProps> = ({onClose, order, isOpen, groups})
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-success">
+                    <Button type="submit" className="btn btn-success">
                         save
-                    </button>
+                    </Button>
                 </form>
             </Modal.Body>
         </Modal>

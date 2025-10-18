@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { refreshAccessToken } from "./authService";
-import { getAccessToken } from "./TokenService";
+import { getAccessToken } from "./tokenService";
 import { BASE_URL } from "./consts";
 import { IOrder } from "../interfaces/order/IOrder";
 import { ISearchParams } from "../interfaces/order/ISearchParams";
 import { IStat } from "../interfaces/order/IStat";
-import { IPaginationResponse } from "../interfaces/order/IPaginationResponse";
+import { IPaginationResponse } from "../interfaces/pagination/IPaginationResponse";
 
 
 axios.interceptors.request.use(
@@ -36,7 +36,6 @@ axios.interceptors.response.use(
 );
 
 export const getAllOrders = async (params: ISearchParams): Promise<IPaginationResponse<IOrder>> => {
-    const token = getAccessToken();
     try {
         const response: AxiosResponse<IPaginationResponse<IOrder>> = await axios.get(`${BASE_URL}/orders/`, {
             params,
@@ -62,7 +61,6 @@ export const getAllGroupNames = async (): Promise<string[]> => {
 };
 
 export const getStats = async (): Promise<IStat[]> => {
-    const token = getAccessToken();
     try {
         const response: AxiosResponse<IStat[]> = await axios.get(`${BASE_URL}/orders/stats`, {
             headers: {

@@ -3,12 +3,12 @@ import PreloaderComponent from "../components/PreloaderComponent";
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import OrdersComponent from '../components/order/OrdersComponent';
 import {IOrder} from '../interfaces/order/IOrder';
-import {getAllGroupNames, getAllOrders, getExcel} from '../services/OrdersService';
+import {getAllGroupNames, getAllOrders, getExcel} from '../services/ordersService';
 import {ISearchParams} from '../interfaces/order/ISearchParams';
 import FilterFormComponent from '../components/order/FilterFormComponent';
 import dayjs from 'dayjs';
 import saveAs from 'file-saver';
-import {IPaginationResponse} from '../interfaces/order/IPaginationResponse';
+import { IPaginationResponse } from '../interfaces/pagination/IPaginationResponse';
 import PaginationComponent from '../components/pagination/PaginationComponent';
 
 const OrdersPage: FC = () => {
@@ -18,6 +18,8 @@ const OrdersPage: FC = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0);
     const [groups, setGroups] = useState<string[]>([]);
+    const [perPage, setPerPage] = useState<number>(0);
+
     const page = Number(searchParams.get("page")) || 1;
     const order = searchParams.get("order") || "id";
     const direction = searchParams.get("direction") || "desc";
@@ -46,6 +48,7 @@ const OrdersPage: FC = () => {
             .then((resp: IPaginationResponse<IOrder>) => {
                 setOrdersPaginated(resp.data);
                 setTotal(resp.total);
+                setPerPage(resp.perPage);
                 setIsLoaded(true);
             })
     }, [searchParams]);
@@ -121,12 +124,13 @@ const OrdersPage: FC = () => {
                                                  onSort={updateSorting}/>
                                 <PaginationComponent
                                     total={total}
+                                    perPage={perPage}
                                     page={page}
                                     setSearchParams={setSearchParams}
                                 />
                             </>
                         ) : (
-                            <h3 className="mt-4 text-danger">No orders matched</h3>
+                            <h3 className="mt-4 text-danger">No orders</h3>
                         )}
                     </div>
                 ) :(

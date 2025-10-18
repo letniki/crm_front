@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import {Link, useNavigate } from 'react-router-dom';
-import { getUserName, getUserRole } from '../services/TokenService';
+import { getUserName, getUserRole } from '../services/tokenService';
 
 const HeaderComponent = () => {
     const navigate = useNavigate();
