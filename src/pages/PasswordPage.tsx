@@ -26,14 +26,14 @@ const PasswordPage = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-20">
-            <h1 className="text-2xl mb-4">Set Your Password</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="d-flex flex-column justify-content-center align-items-center">
+            <h1 className="text-success m-4">Set Your Password</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
                 <input
                     type="password"
                     placeholder="Password"
                     {...register("password", {required: true, minLength: 6})}
-                    className="border p-2 rounded"
+                    className="border p-2 m-2"
                 />
                 {errors.password && <span className="text-red-500">password is required (min 6)</span>}
 
@@ -43,12 +43,12 @@ const PasswordPage = () => {
                     {...register("confirmPassword", {
                         validate: (value) => value === watch("password") || "Passwords do not match",
                     })}
-                    className="border p-2 rounded"
+                    className="border p-2 m-2"
                 />
                 {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword.message}</span>}
 
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-                    Activate
+                <button type="submit" className="m-2 p-2 bg-success text-white">
+                    submit
                 </button>
             </form>
         </div>

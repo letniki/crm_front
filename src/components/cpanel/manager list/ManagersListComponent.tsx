@@ -10,7 +10,7 @@ interface IProps {
 const ManagersListComponent: FC<IProps> = ({managers}) => {
     return (
         <div className="m-3 w-75">
-            {managers.map(manager => <ManagersListItemComponent index={manager.id} manager={manager}/>)}
+            {managers.map(manager => <ManagersListItemComponent key={manager.id} manager={manager}/>)}
         </div>
     );
 };
